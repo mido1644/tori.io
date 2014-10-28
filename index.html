@@ -1,0 +1,134 @@
+<!doctype HTML>
+<html>
+  <head>
+    <title>Tori Petersen | tori.io</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style media="screen">
+      body, br {
+        font-family: "Futura";
+        font-size: 35px;
+        margin: 0;
+        padding: 0;
+        color: #333;
+      }
+
+      h1 {
+        margin: 0px 0 20px 0;
+      }
+
+      p {
+        margin-top: 15px;
+      }
+
+      #bgWr {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      #wr {
+        padding-top: 10px;
+        width: 350px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        display: none;
+        position:relative;
+        height: 1000px;
+      }
+
+      #content {
+        position: absolute;
+        top: 5%;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      #content li {
+        display: inline-block;
+      }
+
+      #content li img {
+        width: 85px;
+      }
+
+      a, a:visited { color: #3f729b }
+
+      #bg {
+        position: absolute;
+        width: 150%;
+        opacity: 0.15;
+        overflow-y: hidden;
+      }
+
+      #bg div {
+        float: left;
+        height: 150px;
+        width: 150px;
+      }
+    </style>
+    
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//cdn.jsdelivr.net/formalize/0.1/js/jquery.formalize.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        $("#bgWr").css({height: $("#wr").height(), width: $(window).width()});
+        $("#wr").fadeIn(1000);
+
+        $.getJSON("/posts.json",function(json){
+          window.posts = json.data;
+
+
+          for(i = 0; i < 10; i++){
+            $.each(posts, function(){
+              if($("#bg").height() >= $("#wr").height() + 150) return false;
+
+              var url = this.images.thumbnail.url;
+              var img = $("<div/>",{style: "display: none; background-image: url("+url+")"});
+              $("#bg").append(img);
+              img.fadeIn(3000);
+
+              if(img.offset().left > $(window).width())
+                $("#bg").append("<div style='float:none'></div>");
+            });
+          }
+        });
+      });
+
+      $(window).scroll(function() {
+        $("#bgWr").css({top: -($(window).scrollTop() * 0.5 )})
+      });
+    </script>
+  </head>
+  <body>
+    <div id="bgWr">
+      <div id="bg"></div>
+    </div>
+    <div id="wr">
+      <div id="content">
+        <img src="/tori.png"/>
+        <h1>Tori Petersen</h1>
+        <ul>
+          <li><a href="https://www.linkedin.com/in/toripetersen" title="LinkedIn"><img src="/linkedin.png" alt="LinkedIn"/></a></li>
+          <li><a href="https://twitter.com/toripetersen" title="Twitter"><img src="/twitter.png" alt="Twitter"/></a></li>
+          <li><a href="http://instagram.com/toripetersen" title="Instagram"><img src="/instagram.png" alt="Instagram"/></a></li>
+          <!-- <li><a href="mailto:t@tori.io"><img src="/email.png" alt="Email me!"/></a></li> -->
+        </ul>
+
+        <p>a really happy human who dabbles in public relations + events for
+          <a href="http://twitter/acura">@acura</a> &amp; <a href="http://twitter.com/honda">@honda</a>.
+        sunset enthusiast.</p>
+
+      </div>
+    </div>
+  </body>
+</html>
